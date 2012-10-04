@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Dmitri Voronianski">
+	<title>Realtime geolocation with Web Sockets</title>
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+
+	<!--[if lt IE 9]>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="wrapper">
+	  <header>
+	  	<h1>Realtime geolocation service with Node.js</h1>
+	  	<div class="description">Using HTML5 Geolocation API and Web Sockets to show connected locations.</div>
+	  </header>
+
+	  <div class="infobox" style="display:none;">This app needs your geolocation to start work..</div>
+	  <div id="map">To get this app work you need to share your geolocation..</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="./js/application.js"></script>
+</body>
+</html>

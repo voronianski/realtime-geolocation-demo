@@ -1,0 +1,48 @@
+* { margin: 0; padding: 0; border: 0; }
+
+body {
+	background: url('../assets/grey.png') #f2f2f2;
+	color: #666;
+	font: 14px/18px 'Lato', Arial, sans-serif;
+}
+
+header {
+	width: 100%;
+	text-align: center;
+	line-height: 32px;
+}
+
+h1 {
+	font-size: 30px;
+	font-weight: 400;	
+}
+
+.description {
+	font-weight: 300;
+}
+
+.wrapper {
+	width: 800px;
+	margin: 50px auto;
+}
+
+#map {
+	width: 750px;
+	height: 420px;
+	margin: 20px auto;
+	text-align: center;
+	color: #999;
+	background: rgba(230, 230, 230, 0.45);
+	border: 10px solid #f2f2f2;
+	font-size: 24px;
+	font-weight: 300;
+	line-height: 390px;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.infobox {
+	position: absolute;
+}
