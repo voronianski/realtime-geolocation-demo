@@ -22,27 +22,62 @@ h1 {
 }
 
 .wrapper {
-	width: 800px;
+	width: 770px;
 	margin: 50px auto;
 }
 
-#map {
+.app {
 	width: 750px;
-	height: 420px;
-	margin: 20px auto;
+	padding: 10px;
+	background: rgba(230, 230, 230, 0.45);
 	text-align: center;
 	color: #999;
-	background: rgba(230, 230, 230, 0.45);
-	border: 10px solid #f2f2f2;
 	font-size: 24px;
 	font-weight: 300;
 	line-height: 390px;
+	margin: 10px auto;
+	position: relative;
 
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
+#map {
+	width: 750px;
+	height: 420px;
+	background: transparent;
+}
+
 .infobox {
+	background: #FFF;
+	width: 320px;
+	padding: 40px;
+	line-height: 30px;
+	text-align: center;
 	position: absolute;
+	top: 150px;
+	left: 175px;
+	z-index: 10000;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	box-shadow: 0 0 4px 0 #AAAAAA;
+
+	-webkit-transition: opacity .2s ease-out;
+	-moz-transition: opacity .2s ease-out;
+	transition: opacity .2s ease-out;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.infobox.error {
+	opacity: .9;
+	filter: alpha(opacity=90);
+}
+
+/* custom popup fonts */
+.leaflet-popup-content {
+	font: 12px 'Lato', Arial, sans-serif !important;
 }

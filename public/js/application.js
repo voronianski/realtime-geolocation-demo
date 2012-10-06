@@ -2,9 +2,22 @@ $(function() {
 	// generate unique user id
 	var userId = Math.random().toString(16).substring(2,15);
 	var socket = io.connect('/');
+	var info = $('#infobox');
+	var map;
 
-	// load leaflet map
-	var map = L.map('map');
+	// custom marker's icon styles
+	var tinyIcon = L.Icon.extend({
+		options: {
+			shadowUrl: '../assets/marker-shadow.png',
+			iconSize: [25, 39],
+			iconAnchor:   [12, 36],
+			shadowSize: [41, 41],
+			shadowAnchor: [12, 38],
+			popupAnchor: [0, -30]
+		}
+	});
+	var redIcon = new tinyIcon({ iconUrl: '../assets/marker-red.png' });
+	var yellowIcon = new tinyIcon({ iconUrl: '../assets/marker-yellow.png' });
 
 	var sentData = {
 		id: userId,
@@ -25,7 +38,7 @@ $(function() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true });
 	} else {
-		alert('Please use modern browser, this one doesn\'t support Geolocation!');
+		$('.map').text('Please use modern browser, this one doesn\'t support Geolocation!');
 	}
 
 	function positionSuccess(position) {
@@ -33,12 +46,22 @@ $(function() {
 		var lng = position.coords.longitude;
 		var acr = position.coords.accuracy;
 
-		var userMarker = L.marker([lat, lng]);
+		// mark user's position
+		var userMarker = L.marker([lat, lng], {
+			icon: redIcon
+		});
+		// uncomment for static debug
+		userMarker = L.marker([51.45, 30.050], {
+			icon: redIcon
+		});
+
+		// load leaflet map
+		map = L.map('map');
 
 		// leaflet API key tiler
-		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 		
-		map.setView([lat, lng], 11);
+		map.setView([lat, lng], 2);
 		userMarker.addTo(map);
 		userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
 
@@ -48,23 +71,30 @@ $(function() {
 			acr: acr
 		});
 
-		//$(document).bind('mousemove', function() {
-		//interval = window.setInterval(function() {
+		$('.app').click(function() { showError('Updating data..') });
+
 		socket.emit('send:coords', JSON.stringify(sentData));
-		//}, 5000);
-		//});
-		}
+		sentData.coords = new Array();
+	}
 
-		function positionError(error) {
-			alert('Booo! Error appeared ;)');
+	function setMap(data) {
+		for (i = 0; i < data.coords.length; i++) {
+			console.log(data.id);
+			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
+			marker.bindPopup('<p>One more external user is here!</p>');
 		}
+	}
 
-		function setMap(data) {
-			console.log(data.coords.length);
-			for (i = 0; i < data.coords.length; i++) {
-				console.log(data.coords[i]);
-				var marker = L.marker([data.coords[i].lat, data.coords[i].lng]).addTo(map);
-				marker.bindPopup('<p>External user is here!</p>');
-			}
-		}
+	function positionError(error) {
+		var errors = {
+			1: 'Authorization fails', // permission denied
+			2: 'Can\'t detect your location', //position unavailable
+			3: 'Connection timeout' // timeout
+		};
+		showError('Error:' + errors[error.code]);
+	}
+
+	function showError(msg) {
+		info.addClass('error').text(msg);
+	}
 });
