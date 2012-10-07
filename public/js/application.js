@@ -2,8 +2,10 @@ $(function() {
 	// generate unique user id
 	var userId = Math.random().toString(16).substring(2,15);
 	var socket = io.connect('/');
-	var info = $('#infobox');
 	var map;
+
+	var	info = $('#infobox');
+	//console.log(userId);
 
 	// custom marker's icon styles
 	var tinyIcon = L.Icon.extend({
@@ -25,12 +27,17 @@ $(function() {
 	}
 
 	var clients = {};
+	var markers = {};
 
-	socket.on('load:coords', function(data) {
-		//if (!(data.id in clients)) {;
-		setMap(JSON.parse(data));
-		//}
+	socket.on('load:coords', function(id, data) {
+		if (!(id in clients)) {			
+			console.log('id in clients');
+			clients[id] = id;
 
+			setMarker(JSON.parse(data));
+		}
+
+		//clients[id].updated = $.now();
 		//clients[data.id] = data;
 		//clients[data.id].updated = $.now();
 	});
@@ -38,7 +45,7 @@ $(function() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true });
 	} else {
-		$('.map').text('Please use modern browser, this one doesn\'t support Geolocation!');
+		$('.map').text('Your browser is out of fashion, there\'s no geolocation!');
 	}
 
 	function positionSuccess(position) {
@@ -61,9 +68,13 @@ $(function() {
 		// leaflet API key tiler
 		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 		
-		map.setView([lat, lng], 2);
+		// map.setView([lat, lng], 6);
+		map.fitWorld();
 		userMarker.addTo(map);
 		userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
+
+		$(document).bind('mousemove', function() {
+			resetTimer();
 
 		sentData.coords.push({
 			lat: lat,
@@ -71,17 +82,19 @@ $(function() {
 			acr: acr
 		});
 
-		$('.app').click(function() { showError('Updating data..') });
-
-		socket.emit('send:coords', JSON.stringify(sentData));
+		//console.log('move');
+		socket.emit('send:coords', userId, JSON.stringify(sentData));
 		sentData.coords = new Array();
+		});
 	}
 
-	function setMap(data) {
+	var emarker;
+	function setMarker(data) {
+		//console.log('set');
 		for (i = 0; i < data.coords.length; i++) {
-			console.log(data.id);
-			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
-			marker.bindPopup('<p>One more external user is here!</p>');
+			//console.log(data.id);
+			emarker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
+			emarker.bindPopup('<p>One more external user is here!</p>');
 		}
 	}
 
@@ -97,4 +110,27 @@ $(function() {
 	function showError(msg) {
 		info.addClass('error').text(msg);
 	}
+
+	// check and remove marker for inactive user 
+	var timer = 5;
+	function inactivity() {
+		if (timer == 0)	{
+			console.log('no activity on the page');
+			/*for (ident in markers) {
+				console.log('clean');
+			  	map.removeLayer(markers[ident]);
+			  	//console.log(clients[ident]);
+			}*/
+			resetTimer();
+		} else {
+			//console.log('else');
+			timer--
+		}
+	}
+
+	function resetTimer() {
+		timer = 5;
+	} 
+
+	setInterval(function() { inactivity() }, 2000);
 });

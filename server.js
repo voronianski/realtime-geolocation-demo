@@ -13,9 +13,9 @@ function handler(request, response) {
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.on('send:coords', function (data) {
+  socket.on('send:coords', function (id, data) {
   	console.log(data);
-  	socket.broadcast.emit('load:coords', data);
+  	socket.broadcast.emit('load:coords', id, data);
   });
 });
 
