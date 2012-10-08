@@ -4,6 +4,7 @@ $(function() {
 	var socket = io.connect('/');
 	var map;
 	var info = $('#infobox');
+	//console.log(userId);
 
 	// custom marker's icon styles
 	var tinyIcon = L.Icon.extend({
@@ -19,19 +20,25 @@ $(function() {
 	var redIcon = new tinyIcon({ iconUrl: '../assets/marker-red.png' });
 	var yellowIcon = new tinyIcon({ iconUrl: '../assets/marker-yellow.png' });
 
-	var sentData = {}
+	var sentData = {
+		id: userId,
+		coords: []
+	}
 
 	var clients = {};
 	var markers = {};
-	var active = false;
 
-	socket.on('load:coords', function(data) {
-		if (!(data.id in clients)) {
-			setMarker(data);
+	socket.on('load:coords', function(id, data) {
+		if (!(id in clients)) {			
+			console.log('id in clients');
+			clients[id] = id;
+
+			setMarker(JSON.parse(data));
 		}
 
-		clients[data.id] = data;
-        clients[data.id].updated = $.now();
+		//clients[id].updated = $.now();
+		//clients[data.id] = data;
+		//clients[data.id].updated = $.now();
 	});
 
 	if (navigator.geolocation) {
@@ -49,8 +56,8 @@ $(function() {
 		var userMarker = L.marker([lat, lng], {
 			icon: redIcon
 		});
-		/*/ uncomment for static debug
-		userMarker = L.marker([51.45, 30.050], {
+		// uncomment for static debug
+		/*userMarker = L.marker([51.45, 30.050], {
 			icon: redIcon
 		});*/
 
@@ -67,31 +74,25 @@ $(function() {
 
 		// send coords on when user is active
 		$(document).on('mousemove', function() {
-			active = true; 
+			resetTimer();
 
-			sentData = {
-				id: userId,
-				active: active,
-				coords: [{
+			sentData.coords.push({
 				lat: lat,
 				lng: lng,
 				acr: acr
-				}]
-			}
-			socket.emit('send:coords', sentData);
+			});
+			socket.emit('send:coords', userId, JSON.stringify(sentData));
+			sentData.coords = new Array();
 		});
 	}
 
-	$(document).bind('mouseup mouseleave', function() {
-		active = false;
-	});
-
-	//var emarker;
+	var emarker;
 	function setMarker(data) {
 		for (i = 0; i < data.coords.length; i++) {
-			var emarker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
+			//console.log(data.id);
+			emarker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
 			emarker.bindPopup('<p>One more external user is here!</p>');
-			markers[data.id] = emarker;
+			markers[emarker] = emarker;
 		}
 	}
 
@@ -108,13 +109,26 @@ $(function() {
 		info.addClass('error').text(msg);
 	}
 
-	// delete inactive users
-	setInterval(function() {
-		for (ident in clients){
-			if ($.now() - clients[ident].updated > 5000) {
-				delete clients[ident];
-				map.removeLayer(markers[ident]);
-			}
-        }
-    }, 5000);
+	// check and remove marker for inactive user 
+	var timer = 5;
+	function inactivity() {
+		if (timer == 0)	{
+			console.log('no activity on the page');
+			/*for (ident in markers) {
+				console.log('clean');
+			  	map.removeLayer(markers[ident]);
+			  	//console.log(clients[ident]);
+			}*/
+			resetTimer();
+		} else {
+			//console.log('else');
+			timer--
+		}
+	}
+
+	function resetTimer() {
+		timer = 5;
+	}
+
+	setInterval(function() { inactivity() }, 2000);
 });
