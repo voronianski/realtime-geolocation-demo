@@ -3,7 +3,9 @@ $(function() {
 	var userId = Math.random().toString(16).substring(2,15);
 	var socket = io.connect('/');
 	var map;
+
 	var info = $('#infobox');
+	var doc = $(document);
 
 	// custom marker's icon styles
 	var tinyIcon = L.Icon.extend({
@@ -21,19 +23,20 @@ $(function() {
 
 	var sentData = {}
 
-	var clients = {};
+	var connects = {};
 	var markers = {};
 	var active = false;
 
 	socket.on('load:coords', function(data) {
-		if (!(data.id in clients)) {
+		if (!(data.id in connects)) {
 			setMarker(data);
 		}
 
-		clients[data.id] = data;
-        clients[data.id].updated = $.now();
+		connects[data.id] = data;
+        connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
 	});
 
+	// check whether browser supports geolocation api
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true });
 	} else {
@@ -49,10 +52,8 @@ $(function() {
 		var userMarker = L.marker([lat, lng], {
 			icon: redIcon
 		});
-		/*/ uncomment for static debug
-		userMarker = L.marker([51.45, 30.050], {
-			icon: redIcon
-		});*/
+		// uncomment for static debug
+		// userMarker = L.marker([51.45, 30.050], { icon: redIcon });
 
 		// load leaflet map
 		map = L.map('map');
@@ -60,41 +61,42 @@ $(function() {
 		// leaflet API key tiler
 		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 		
-		// map.setView([lat, lng], 6);
+		// set map bounds
 		map.fitWorld();
 		userMarker.addTo(map);
 		userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
 
 		// send coords on when user is active
-		$(document).on('mousemove', function() {
+		doc.on('mousemove', function() {
 			active = true; 
 
 			sentData = {
 				id: userId,
 				active: active,
 				coords: [{
-				lat: lat,
-				lng: lng,
-				acr: acr
+					lat: lat,
+					lng: lng,
+					acr: acr
 				}]
 			}
 			socket.emit('send:coords', sentData);
 		});
 	}
 
-	$(document).bind('mouseup mouseleave', function() {
+	doc.bind('mouseup mouseleave', function() {
 		active = false;
 	});
 
-	//var emarker;
+	// showing markers for connections
 	function setMarker(data) {
 		for (i = 0; i < data.coords.length; i++) {
-			var emarker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
-			emarker.bindPopup('<p>One more external user is here!</p>');
-			markers[data.id] = emarker;
+			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
+			marker.bindPopup('<p>One more external user is here!</p>');
+			markers[data.id] = marker;
 		}
 	}
 
+	// handle geolocation api errors
 	function positionError(error) {
 		var errors = {
 			1: 'Authorization fails', // permission denied
@@ -108,13 +110,13 @@ $(function() {
 		info.addClass('error').text(msg);
 	}
 
-	// delete inactive users
+	// delete inactive users every 15 sec
 	setInterval(function() {
-		for (ident in clients){
-			if ($.now() - clients[ident].updated > 5000) {
-				delete clients[ident];
+		for (ident in connects){
+			if ($.now() - connects[ident].updated > 15000) {
+				delete connects[ident];
 				map.removeLayer(markers[ident]);
 			}
         }
-    }, 5000);
+    }, 15000);
 });
