@@ -59,6 +59,7 @@ h1 {
 	top: 150px;
 	left: 175px;
 	z-index: 10000;
+	visibility: hidden;
 	opacity: 0;
 	filter: alpha(opacity=0);
 	box-shadow: 0 0 4px 0 #AAAAAA;
@@ -75,6 +76,7 @@ h1 {
 .infobox.error {
 	opacity: .9;
 	filter: alpha(opacity=90);
+	visibility: visible;
 }
 
 /* custom popup fonts */

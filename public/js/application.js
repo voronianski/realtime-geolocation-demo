@@ -108,6 +108,8 @@ $(function() {
 
 	function showError(msg) {
 		info.addClass('error').text(msg);
+
+		doc.click(function() { info.removeClass('error') });
 	}
 
 	// delete inactive users every 15 sec

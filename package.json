@@ -1,10 +1,11 @@
 {
   "name": "geotest",
   "subdomain": "geotest",
+  "author": "Dmitri Voronianski <dmitri.voronianski@gmail.com>",
   "scripts": {
     "start": "server.js"
   },
-  "version": "0.0.1-10",
+  "version": "0.0.2-3",
   "engines": {
     "node": "0.8.x"
   },
