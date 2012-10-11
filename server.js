@@ -12,9 +12,11 @@ function handler(request, response) {
 	});
 }
 
+// delete to see more logs from sockets
+io.set('log level', 1);
+
 io.sockets.on('connection', function (socket) {
   socket.on('send:coords', function (data) {
-  	console.log(data);
   	socket.broadcast.emit('load:coords', data);
   });
 });

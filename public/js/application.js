@@ -66,6 +66,7 @@ $(function() {
 		userMarker.addTo(map);
 		userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
 
+		var emit = $.now();
 		// send coords on when user is active
 		doc.on('mousemove', function() {
 			active = true; 
@@ -79,7 +80,11 @@ $(function() {
 					acr: acr
 				}]
 			}
-			socket.emit('send:coords', sentData);
+
+			if ($.now() - emit > 30) {
+				socket.emit('send:coords', sentData);
+				emit = $.now();
+			}
 		});
 	}
 
