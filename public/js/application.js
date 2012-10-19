@@ -33,7 +33,7 @@ $(function() {
 		}
 
 		connects[data.id] = data;
-        connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
+        	connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
 	});
 
 	// check whether browser supports geolocation api
@@ -124,6 +124,6 @@ $(function() {
 				delete connects[ident];
 				map.removeLayer(markers[ident]);
 			}
-        }
-    }, 15000);
+        	}
+    	}, 15000);
 });
