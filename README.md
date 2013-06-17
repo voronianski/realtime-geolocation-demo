@@ -9,6 +9,11 @@ If you decided to clone this repo, don't forget to run inside it:
 npm install
 ```
 
+### Requirements
+
+- OS X, Linux, Windows;
+- It's tested to run with node v0.8 and v0.10;
+
 ---
 
 (c) 2012 - 2013 Dmitri Voronianski
