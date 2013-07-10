@@ -1,7 +1,10 @@
 # realtime-geolocation-demo
 
 Realtime geolocation app build on Node.js with HTML5 Geolocation API, Socket.io and Leaflet maps library.
-Tutorial and how to start with it you can read at http://tympanus.net/codrops/2012/10/11/real-time-geolocation-service-with-node-js/
+
+### How to
+
+Tutorial and full description how to start with this demo you can read at http://tympanus.net/codrops/2012/10/11/real-time-geolocation-service-with-node-js/
 
 If you decided to clone this repo, don't forget to run inside it:
 
