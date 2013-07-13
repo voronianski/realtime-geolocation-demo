@@ -21,7 +21,7 @@ $(function() {
 	var redIcon = new tinyIcon({ iconUrl: '../assets/marker-red.png' });
 	var yellowIcon = new tinyIcon({ iconUrl: '../assets/marker-yellow.png' });
 
-	var sentData = {}
+	var sentData = {};
 
 	var connects = {};
 	var markers = {};
@@ -33,7 +33,7 @@ $(function() {
 		}
 
 		connects[data.id] = data;
-        	connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
+			connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
 	});
 
 	// check whether browser supports geolocation api
@@ -60,7 +60,7 @@ $(function() {
 
 		// leaflet API key tiler
 		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
-		
+
 		// set map bounds
 		map.fitWorld();
 		userMarker.addTo(map);
@@ -69,7 +69,7 @@ $(function() {
 		var emit = $.now();
 		// send coords on when user is active
 		doc.on('mousemove', function() {
-			active = true; 
+			active = true;
 
 			sentData = {
 				id: userId,
@@ -79,7 +79,7 @@ $(function() {
 					lng: lng,
 					acr: acr
 				}]
-			}
+			};
 
 			if ($.now() - emit > 30) {
 				socket.emit('send:coords', sentData);
@@ -94,7 +94,7 @@ $(function() {
 
 	// showing markers for connections
 	function setMarker(data) {
-		for (i = 0; i < data.coords.length; i++) {
+		for (var i = 0; i < data.coords.length; i++) {
 			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
 			marker.bindPopup('<p>One more external user is here!</p>');
 			markers[data.id] = marker;
@@ -114,16 +114,18 @@ $(function() {
 	function showError(msg) {
 		info.addClass('error').text(msg);
 
-		doc.click(function() { info.removeClass('error') });
+		doc.click(function() {
+			info.removeClass('error');
+		});
 	}
 
 	// delete inactive users every 15 sec
 	setInterval(function() {
-		for (ident in connects){
+		for (var ident in connects){
 			if ($.now() - connects[ident].updated > 15000) {
 				delete connects[ident];
 				map.removeLayer(markers[ident]);
 			}
-        	}
-    	}, 15000);
+		}
+	}, 15000);
 });
