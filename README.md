@@ -1,5 +1,7 @@
 # realtime-geolocation-demo
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/voronianski/realtime-geolocation-demo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 Realtime geolocation app build on Node.js with HTML5 Geolocation API, Socket.io and Leaflet maps library.
 
 ### How to
