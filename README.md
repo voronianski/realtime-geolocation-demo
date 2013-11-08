@@ -4,7 +4,7 @@
 
 [![Map Preview](http://codropspz.tympanus.netdna-cdn.com/codrops/wp-content/uploads/2012/10/Real-Time-Geolocation-Service-with-Node.jpg)](http://tympanus.net/codrops/2012/10/11/real-time-geolocation-service-with-node-js/)
 
-Realtime geolocation app build on Node.js with HTML5 Geolocation API, Socket.io and Leaflet maps library.
+Realtime geolocation app build on [Node.js](http://nodejs.org/) with [HTML5 Geolocation API](http://diveintohtml5.info/geolocation.html), [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
 
 ### How to
 
@@ -18,7 +18,7 @@ npm install
 
 ### Requirements
 
-- OS X, Linux, Windows;
+- Mac OS X, Linux, Windows;
 - It's tested to run with node v0.8 and v0.10;
 
 ---
