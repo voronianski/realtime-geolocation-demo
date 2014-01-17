@@ -28,32 +28,21 @@ $(function() {
 	var active = false;
 
 	socket.on('load:coords', function(data) {
+		
+		console.log(data);
+		
 		if (!(data.id in connects)) {
-			setMarker(data);
+			setMarker(data);			
 		}
 
 		connects[data.id] = data;
 			connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
 	});
+	
+	initMap();
 
-	// check whether browser supports geolocation api
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true });
-	} else {
-		$('.map').text('Your browser is out of fashion, there\'s no geolocation!');
-	}
 
-	function positionSuccess(position) {
-		var lat = position.coords.latitude;
-		var lng = position.coords.longitude;
-		var acr = position.coords.accuracy;
-
-		// mark user's position
-		var userMarker = L.marker([lat, lng], {
-			icon: redIcon
-		});
-		// uncomment for static debug
-		// userMarker = L.marker([51.45, 30.050], { icon: redIcon });
+	function initMap() {
 
 		// load leaflet map
 		map = L.map('map');
@@ -63,52 +52,16 @@ $(function() {
 
 		// set map bounds
 		map.fitWorld();
-		userMarker.addTo(map);
-		userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
 
-		var emit = $.now();
-		// send coords on when user is active
-		doc.on('mousemove', function() {
-			active = true;
-
-			sentData = {
-				id: userId,
-				active: active,
-				coords: [{
-					lat: lat,
-					lng: lng,
-					acr: acr
-				}]
-			};
-
-			if ($.now() - emit > 30) {
-				socket.emit('send:coords', sentData);
-				emit = $.now();
-			}
-		});
 	}
-
-	doc.bind('mouseup mouseleave', function() {
-		active = false;
-	});
 
 	// showing markers for connections
 	function setMarker(data) {
 		for (var i = 0; i < data.coords.length; i++) {
 			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
-			marker.bindPopup('<p>One more external user is here!</p>');
+			marker.bindPopup('<p>' + data.id + '</p>');
 			markers[data.id] = marker;
 		}
-	}
-
-	// handle geolocation api errors
-	function positionError(error) {
-		var errors = {
-			1: 'Authorization fails', // permission denied
-			2: 'Can\'t detect your location', //position unavailable
-			3: 'Connection timeout' // timeout
-		};
-		showError('Error:' + errors[error.code]);
 	}
 
 	function showError(msg) {
