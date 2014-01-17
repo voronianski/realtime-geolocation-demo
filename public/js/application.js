@@ -51,7 +51,7 @@ $(function() {
 		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 
 		// set map bounds
-		map.fitWorld();
+		map.setView([45.191372, 5.730105], 13);
 
 	}
 
