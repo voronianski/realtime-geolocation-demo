@@ -58,8 +58,8 @@ $(function() {
 	// showing markers for connections
 	function setMarker(data) {
 		for (var i = 0; i < data.coords.length; i++) {
-			var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
-			marker.bindPopup('<p>' + data.id + '</p>');
+			var marker = L.marker([data.coords[i].lat, data.coords[i].lng]).addTo(map);
+			marker.bindPopup('<b>' + data.id + '</b>');
 			markers[data.id] = marker;
 		}
 	}

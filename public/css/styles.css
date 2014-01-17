@@ -1,52 +1,21 @@
 * { margin: 0; padding: 0; border: 0; }
 
+html, body {
+    		height: 100%;
+    		margin: 0;
+    	}
+
 body {
-	background: url('../assets/grey.png') #f2f2f2;
+	background: url('../assets/background.png');
 	color: #666;
-	font: 14px/18px 'Lato', Arial, sans-serif;
-}
-
-header {
-	width: 100%;
-	text-align: center;
-	line-height: 32px;
-}
-
-h1 {
-	font-size: 30px;
-	font-weight: 400;	
-}
-
-.description {
-	font-weight: 300;
-}
-
-.wrapper {
-	width: 770px;
-	margin: 50px auto;
-}
-
-.app {
-	width: 750px;
-	padding: 10px;
-	background: rgba(230, 230, 230, 0.45);
-	text-align: center;
-	color: #999;
-	font-size: 24px;
-	font-weight: 300;
-	line-height: 390px;
-	margin: 10px auto;
-	position: relative;
-
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	font: 14px/18px Arial, sans-serif;
 }
 
 #map {
-	width: 750px;
-	height: 420px;
-	background: transparent;
+	width: 80%;
+	height: 600px;
+	margin:auto;
+	margin-top:20px;
 }
 
 .infobox {
@@ -81,5 +50,5 @@ h1 {
 
 /* custom popup fonts */
 .leaflet-popup-content {
-	font: 12px 'Lato', Arial, sans-serif !important;
+	font: 12px Arial, sans-serif !important;
 }
