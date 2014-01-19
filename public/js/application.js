@@ -3,8 +3,7 @@ $(function() {
 	var userId = Math.random().toString(16).substring(2,15);
 	var socket = io.connect('/');
 	var map;
-
-	var info = $('#infobox');
+	
 	var doc = $(document);
 
 	// custom marker's icon styles
@@ -66,14 +65,6 @@ $(function() {
 			marker.bindPopup('<b>' + data.id + '</b>');
 			markers[data.id] = marker;
 		}
-	}
-
-	function showError(msg) {
-		info.addClass('error').text(msg);
-
-		doc.click(function() {
-			info.removeClass('error');
-		});
 	}
 
 	// delete inactive users every 15 sec
