@@ -4,6 +4,10 @@
 
 Realtime geolocation app build on [Node.js](http://nodejs.org/) [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
 
+### Android App
+
+Available here : https://github.com/eliecharra/ingress-mts-monitor-android
+
 ### How to
 
 - Install the web plugin
