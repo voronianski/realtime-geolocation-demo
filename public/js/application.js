@@ -34,6 +34,10 @@ $(function() {
 		if (!(data.id in connects)) {
 			setMarker(data);			
 		}
+		else
+		{
+			markers[data.id].setLatLng([data.coords[0].lat, data.coords[0].lng]);
+		}
 
 		connects[data.id] = data;
 			connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
@@ -75,10 +79,10 @@ $(function() {
 	// delete inactive users every 15 sec
 	setInterval(function() {
 		for (var ident in connects){
-			if ($.now() - connects[ident].updated > 15000) {
+			if ($.now() - connects[ident].updated > 60000) {
 				delete connects[ident];
 				map.removeLayer(markers[ident]);
 			}
 		}
-	}, 15000);
+	}, 60000);
 });
