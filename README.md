@@ -1,20 +1,20 @@
-# realtime-geolocation-demo
+# ingress-mts-monitor
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/voronianski/realtime-geolocation-demo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Map Preview](http://i.imgur.com/sG7pOwB.png)]
 
-[![Map Preview](http://codropspz.tympanus.netdna-cdn.com/codrops/wp-content/uploads/2012/10/Real-Time-Geolocation-Service-with-Node.jpg)](http://tympanus.net/codrops/2012/10/11/real-time-geolocation-service-with-node-js/)
+Realtime geolocation app build on [Node.js](http://nodejs.org/) [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
 
-Realtime geolocation app build on [Node.js](http://nodejs.org/) with [HTML5 Geolocation API](http://diveintohtml5.info/geolocation.html), [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
+### Android App
+
+Available here : https://github.com/eliecharra/ingress-mts-monitor-android
 
 ### How to
 
-Tutorial and full description how to start with this demo you can read at http://tympanus.net/codrops/2012/10/11/real-time-geolocation-service-with-node-js/
-
-If you decided to clone this repo, don't forget to run inside it:
-
-```bash
-npm install
-```
+- Install the web plugin
+- Edit the plugin to point your node.js server (replace mts.fonk.me:8080)
+- Install android app on your agent devices and configure agent codename and server URL.
+- Run android service, agent will begin to pop on your map.
+- Enjoy ;)
 
 ### Requirements
 
@@ -23,6 +23,6 @@ npm install
 
 ---
 
-(c) 2012 - 2013 Dmitri Voronianski
+(c) 2012 - 2014 NR01-GOLF05-MTS
 
 **MIT Licensed**
