@@ -1,7 +1,5 @@
 # ingress-mts-monitor
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/voronianski/realtime-geolocation-demo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 [![Map Preview](http://i.imgur.com/sG7pOwB.png)]
 
 Realtime geolocation app build on [Node.js](http://nodejs.org/) [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
