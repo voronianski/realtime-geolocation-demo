@@ -4,9 +4,17 @@
 
 Realtime geolocation app build on [Node.js](http://nodejs.org/) [Socket.io](http://socket.io/) and [Leaflet.js](http://leafletjs.com/) maps library.
 
+### Android App
+
+Available here : https://github.com/eliecharra/ingress-mts-monitor-android
+
 ### How to
 
-//TODO
+- Install the web plugin
+- Edit the plugin to point your node.js server (replace mts.fonk.me:8080)
+- Install android app on your agent devices and configure agent codename and server URL.
+- Run android service, agent will begin to pop on your map.
+- Enjoy ;)
 
 ### Requirements
 
