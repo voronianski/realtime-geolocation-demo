@@ -14,7 +14,7 @@ header {
 
 h1 {
 	font-size: 30px;
-	font-weight: 400;	
+	font-weight: 400;
 }
 
 .description {
@@ -82,4 +82,7 @@ h1 {
 /* custom popup fonts */
 .leaflet-popup-content {
 	font: 12px 'Lato', Arial, sans-serif !important;
+}
+.leaflet-control-attribution.leaflet-control {
+	display: none;
 }

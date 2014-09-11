@@ -23,6 +23,6 @@ npm install
 
 ---
 
-(c) 2012 - 2013 Dmitri Voronianski
+(c) 2012 - 2014 Dmitri Voronianski
 
 **MIT Licensed**
