@@ -33,7 +33,7 @@ $(function() {
 		}
 
 		connects[data.id] = data;
-			connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
+		connects[data.id].updated = $.now();
 	});
 
 	// check whether browser supports geolocation api
@@ -58,7 +58,6 @@ $(function() {
 		// load leaflet map
 		map = L.map('map');
 
-		// leaflet API key tiler
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.map-i87786ca/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 
 		// set map bounds
