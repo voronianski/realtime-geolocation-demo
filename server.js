@@ -1,8 +1,7 @@
-var http = require('http');
+var server = require('http').createServer(handler);
 var Static = require('node-static');
-var app = http.createServer(handler);
-var io = require('socket.io').listen(app);
-var port = 8080;
+var io = require('socket.io')(server);
+var port = 3001;
 
 var files = new Static.Server('./public');
 
@@ -12,9 +11,6 @@ function handler (request, response) {
 	}).resume();
 }
 
-// delete to see more logs from sockets
-io.set('log level', 1);
-
 io.sockets.on('connection', function (socket) {
 
 	socket.on('send:coords', function (data) {
@@ -23,5 +19,5 @@ io.sockets.on('connection', function (socket) {
 });
 
 // start app on specified port
-app.listen(port);
+server.listen(port);
 console.log('Your server goes on localhost:' + port);
