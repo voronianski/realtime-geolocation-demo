@@ -58,7 +58,7 @@ $(function() {
 		// load leaflet map
 		map = L.map('map');
 
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.map-i87786ca/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
 
 		// set map bounds
 		map.fitWorld();
